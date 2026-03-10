@@ -88,16 +88,16 @@ public class PdbScriptsPipelineRunCommand {
         PdbSequenceUtil pu = new PdbSequenceUtil();
         
         //Choice 1/3: Parsing from specific folder (use existing local PDB, skip rsync)
-        pu.initSequencefromFolder(ReadConfig.pdbRepo,
-               ReadConfig.workspace + ReadConfig.pdbSeqresDownloadFile);
+        // pu.initSequencefromFolder(ReadConfig.pdbRepo,
+        //        ReadConfig.workspace + ReadConfig.pdbSeqresDownloadFile);
 
         //Choice 2/3: Sync all the pdb in java code
         // pu.initSequencefromFolder("/home/wangjue/gsoc/testpdb/test",ReadConfig.workspace
         // + ReadConfig.pdbSeqresDownloadFile);
 
         //Choice 3/3: Parsing all the pdb from pdbRepo (runs rsync first)
-        //pu.initSequencefromAll(ReadConfig.pdbRepo, ReadConfig.workspace +
-        //        ReadConfig.pdbSeqresDownloadFile);
+        pu.initSequencefromAll(ReadConfig.pdbRepo, ReadConfig.workspace +
+               ReadConfig.pdbSeqresDownloadFile);
 
         // Step 2:
         log.info("********************[STEP 2]********************");
