@@ -435,7 +435,7 @@ public class PdbSequenceUtil {
             params.setCreateAtomBonds(false);
             PDBFileReader reader = new PDBFileReader();
             reader.setFileParsingParameters(params);
-            s = reader.getStructure(pdbFileName);
+            s = reader.getStructure(new File(pdbFileName));
         } else {
             s = StructureIO.getStructure(pdbFileName);
         }
