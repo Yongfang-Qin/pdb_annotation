@@ -23,6 +23,8 @@ import org.biojava.nbio.structure.Chain;
 import org.biojava.nbio.structure.Group;
 import org.biojava.nbio.structure.Structure;
 import org.biojava.nbio.structure.StructureIO;
+import org.biojava.nbio.structure.io.FileParsingParameters;
+import org.biojava.nbio.structure.io.PDBFileReader;
 import org.cbioportal.pdb_annotation.util.pdb.SegmentRecord;
 
 /**
@@ -425,7 +427,18 @@ public class PdbSequenceUtil {
     public String readPDB2ResultsProcess(String pdbFileName) throws Exception {
         String outstr = "";
 
-        Structure s = StructureIO.getStructure(pdbFileName);
+        Structure s;
+        if (pdbFileName.contains("/") || pdbFileName.contains("\\") || pdbFileName.contains(".")) {
+            // Local file path: use PDBFileReader directly to avoid mmCIF attempts
+            // and NPE in ChargeAdder (BioJava 4.2.0 bug)
+            FileParsingParameters params = new FileParsingParameters();
+            params.setCreateAtomBonds(false);
+            PDBFileReader reader = new PDBFileReader();
+            reader.setFileParsingParameters(params);
+            s = reader.getStructure(pdbFileName);
+        } else {
+            s = StructureIO.getStructure(pdbFileName);
+        }
         String molClassification = "mol:protein";
         if (s.getPDBHeader().getClassification().equals("DNA-RNA HYBRID")
                 || s.getPDBHeader().getClassification().equals("DNA/RNA HYBRID")
