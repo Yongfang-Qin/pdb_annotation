@@ -25,6 +25,8 @@ import org.biojava.nbio.structure.Structure;
 import org.biojava.nbio.structure.StructureIO;
 import org.biojava.nbio.structure.io.FileParsingParameters;
 import org.biojava.nbio.structure.io.PDBFileReader;
+import org.biojava.nbio.structure.io.mmcif.ChemCompGroupFactory;
+import org.biojava.nbio.structure.io.mmcif.ReducedChemCompProvider;
 import org.cbioportal.pdb_annotation.util.pdb.SegmentRecord;
 
 /**
@@ -431,6 +433,7 @@ public class PdbSequenceUtil {
         if (pdbFileName.contains("/") || pdbFileName.contains("\\") || pdbFileName.contains(".")) {
             // Local file path: use PDBFileReader directly to avoid mmCIF attempts
             // and NPE in ChargeAdder (BioJava 4.2.0 bug)
+            ChemCompGroupFactory.setChemCompProvider(new ReducedChemCompProvider());
             FileParsingParameters params = new FileParsingParameters();
             params.setCreateAtomBonds(false);
             PDBFileReader reader = new PDBFileReader();
